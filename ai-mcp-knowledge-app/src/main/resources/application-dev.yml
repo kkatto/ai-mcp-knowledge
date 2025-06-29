@@ -2,8 +2,8 @@ server:
   port: 8090
 
 spring:
-  main:
-    web-application-type: none
+#  main:
+#    web-application-type: none
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
@@ -29,6 +29,10 @@ spring:
       # 连接测试query
       connection-test-query: SELECT 1
   ai:
+    mcp:
+      client:
+        stdio:
+          servers-configuration: classpath:/config/mcp-servers-config.json
     ollama:
       base-url: http://14.103.177.146:11434
       embedding:
@@ -36,8 +40,11 @@ spring:
           num-batch: 768
         model: nomic-embed-text
     openai:
-      base-url: https://pro-share-aws-api.zcyai.com/
-      api-key: sk-eEyfxptPgbfXd3Z164260740E0494161Bd8
+      base-url: https://apis.itedus.cn
+      api-key: sk-n3fG89HM0BldyL2X93957025157c4c12A4D23e3251E5D1E2
+      chat:
+        options:
+          model: gpt-4o
       embedding-model: text-embedding-ada-002
       embedding:
         options:

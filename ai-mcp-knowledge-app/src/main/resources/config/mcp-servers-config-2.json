@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "cmd",
+      "args": [
+        "/d",
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "D:\\Users\\53471",
+        "D:\\Users\\53471"
+      ]
+    },
+    "mcp-server-computer": {
+      "command": "java",
+      "args": [
+        "-Dspring.ai.mcp.server.stdio=true",
+        "-jar",
+        "D:\\Maven\\resources\\com\\kou\\mcp\\mcp-server-computer\\1.0.0\\mcp-server-computer-1.0.0.jar"
+      ]
+    }
+  }
+}
+
