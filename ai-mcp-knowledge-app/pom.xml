@@ -74,6 +74,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.kou.mcp</groupId>
+            <artifactId>ai-mcp-knowledge-trigger</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

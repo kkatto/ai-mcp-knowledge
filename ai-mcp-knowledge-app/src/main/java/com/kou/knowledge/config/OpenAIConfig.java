@@ -1,12 +1,15 @@
 package com.kou.knowledge.config;
 
 import io.micrometer.observation.ObservationRegistry;
+import jakarta.annotation.Resource;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.DefaultChatClientBuilder;
 import org.springframework.ai.chat.client.observation.ChatClientObservationConvention;
 import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.OpenAiEmbeddingModel;
 import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.pgvector.PgVectorStore;
@@ -15,16 +18,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+
 @Configuration
 public class OpenAIConfig {
 
-    @Bean
+    @Bean("tokenTextSplitter")
     public TokenTextSplitter tokenTextSplitter() {
         return new TokenTextSplitter();
     }
 
 
-    @Bean
+    @Bean("openAiApi")
     public OpenAiApi openAiApi(@Value("${spring.ai.openai.base-url}") String baseUrl, @Value("${spring.ai.openai.api-key}") String apikey) {
         return OpenAiApi.builder()
                 .baseUrl(baseUrl)
@@ -53,16 +57,21 @@ public class OpenAIConfig {
      * SELECT * FROM vector_store_openai
      */
     @Bean("openAiPgVectorStore")
-    public PgVectorStore pgVectorStore(OpenAiApi openAiApi, JdbcTemplate jdbcTemplate) {
+    public PgVectorStore openAiPgVectorStore(OpenAiApi openAiApi, JdbcTemplate jdbcTemplate) {
         OpenAiEmbeddingModel embeddingModel = new OpenAiEmbeddingModel(openAiApi);
         return PgVectorStore.builder(jdbcTemplate, embeddingModel)
                 .vectorTableName("vector_store_openai")
                 .build();
     }
 
-    @Bean
-    public ChatClient.Builder chatClientBuilder(OpenAiChatModel openAiChatModel) {
-        return new DefaultChatClientBuilder(openAiChatModel, ObservationRegistry.NOOP, (ChatClientObservationConvention) null);
+    @Bean("openAiChatClient")
+    public ChatClient openAiChatClient(OpenAiChatModel openAiChatModel) {
+        DefaultChatClientBuilder defaultChatClientBuilder = new DefaultChatClientBuilder(openAiChatModel, ObservationRegistry.NOOP, (ChatClientObservationConvention) null);
+        return defaultChatClientBuilder
+                .defaultOptions(OpenAiChatOptions.builder()
+                        .model("gpt-4o")
+                        .build())
+                .build();
     }
 
 }

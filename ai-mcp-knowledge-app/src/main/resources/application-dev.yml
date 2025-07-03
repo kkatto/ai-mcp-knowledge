@@ -31,10 +31,13 @@ spring:
   ai:
     mcp:
       client:
+        request-timeout: 180s
         stdio:
-          servers-configuration: classpath:/config/mcp-servers-config.json
+          servers-configuration: classpath:/config/mcp-servers-config-3.json
     ollama:
       base-url: http://14.103.177.146:11434
+      chat:
+        model: deepseek-r1:1.5b
       embedding:
         options:
           num-batch: 768

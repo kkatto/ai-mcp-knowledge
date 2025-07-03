@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>ai-mcp-knowledge-app</module>
+        <module>ai-mcp-knowledge-trigger</module>
     </modules>
 
     <properties>
@@ -42,24 +43,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <resources>
-            <resource>
-                <!-- src/main/resources中的文件都能拷贝到target/classes中  -->
-                <directory>src/main/resources</directory>
-                <includes><!--包括目录下的.properties,.xml 文件都会扫描到-->
-                    <include>**/*.*</include>
-                </includes>
-                <!--filtering 选项 false 不启用过滤器， *.property 已经起到过滤的作用了 -->
-                <filtering>false</filtering>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>

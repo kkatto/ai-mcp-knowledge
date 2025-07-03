@@ -1,8 +1,14 @@
 package com.kou.knowledge.config;
 
+import io.micrometer.observation.ObservationRegistry;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.DefaultChatClientBuilder;
+import org.springframework.ai.chat.client.observation.ChatClientObservationConvention;
+import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.OllamaEmbeddingModel;
 import org.springframework.ai.ollama.api.OllamaApi;
 import org.springframework.ai.ollama.api.OllamaOptions;
+import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.pgvector.PgVectorStore;
 import org.springframework.context.annotation.Bean;
@@ -45,6 +51,19 @@ public class OllamaConfig {
                 .build();
         return PgVectorStore.builder(jdbcTemplate, embeddingModel)
                 .vectorTableName("vector_store_ollama_deepseek")
+                .build();
+    }
+
+    // deepseek-r1:1.5b 不支持调用，可以正常启动程序，但是调用会报错
+    @Bean("ollamaChatClient")
+    public ChatClient ollamaChatClient(OllamaChatModel ollamaChatModel, ToolCallbackProvider tools) {
+        DefaultChatClientBuilder defaultChatClientBuilder = new DefaultChatClientBuilder(ollamaChatModel, ObservationRegistry.NOOP, (ChatClientObservationConvention) null);
+
+        return defaultChatClientBuilder
+                .defaultTools(tools)
+                .defaultOptions(OllamaOptions.builder()
+                        .model("deepseek-r1:1.5b")
+                        .build())
                 .build();
     }
 
