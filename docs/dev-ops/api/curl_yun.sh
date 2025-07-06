@@ -1,4 +1,4 @@
-curl http://58a39caa684c41bf9bed-deepseek-r1-llm-api.gcs-xy1a.jdcloud.com/api/generate \
+curl http://14.103.177.146:11434/api/generate \
   -H "Content-Type: application/json" \
   -d '{
         "model": "deepseek-r1:1.5b",

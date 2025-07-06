@@ -13,6 +13,8 @@ services:
     restart: unless-stopped
     ports:
       - "11434:11434"
+    networks:
+      - my-network
   redis:
     image: redis:6.2
     container_name: redis

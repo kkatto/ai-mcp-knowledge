@@ -1,7 +1,12 @@
-curl http://117.72.115.188:11434/api/generate \
+curl https://apis.itedus.cn/v1/chat/completions \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer sk-rJlvgIfxS1XHgCHPB638Fb13232848B69fC3C431AfF919Ca" \
   -d '{
-        "model": "deepseek-r1:1.5b",
-        "prompt": "1+1",
-        "stream": false
-      }'
+    "model": "gpt-4.1-mini",
+    "messages": [
+      {
+        "role": "user",
+        "content": "1+1"
+      }
+    ]
+  }'

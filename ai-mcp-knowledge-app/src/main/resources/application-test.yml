@@ -1,6 +1,47 @@
 server:
   port: 8090
 
+spring:
+#  main:
+#    web-application-type: none
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: gannima0.++-
+    url: jdbc:postgresql://14.103.177.146:15432/ai-rag-knowledge
+    type: com.zaxxer.hikari.HikariDataSource
+  ai:
+    mcp:
+      client:
+        request-timeout: 360s
+        sse:
+          connections:
+            mcp-server-csdn:
+              url: http://14.103.177.146:8101
+            mcp-server-weixin:
+              url: http://14.103.177.146:8102
+    #        stdio:
+    #          servers-configuration: classpath:/config/mcp-servers-config-4.json
+    ollama:
+      base-url: http://14.103.177.146:11434
+      chat:
+        model: deepseek-r1:1.5b
+      embedding:
+        options:
+          num-batch: 768
+        model: nomic-embed-text
+    openai:
+      base-url: https://apis.itedus.cn
+      api-key: sk-qIRy40akM1hUPLRe7eEf11F42aEd41088a9aE741C67a9459
+      chat:
+        options:
+          model: gpt-4.1-mini
+      embedding-model: text-embedding-ada-002
+      embedding:
+        options:
+          num-batch: 1536
+
+
 logging:
   level:
     root: info
